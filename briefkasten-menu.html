@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metzler – Header mit Mega-Menü „Briefkästen“</title>
+<style>
+/* ══════════════════════════════════════════════════════════
+   1 · DESIGN TOKENS  (Metzler Design System — inline fallback)
+   ══════════════════════════════════════════════════════════ */
+:root {
+  --font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --color-teal-50:  #F2F6F6;
+  --color-teal-75:  #E3F2F0;
+  --color-teal-100: #E6EEEE;
+  --color-teal:     #015253;
+  --color-teal-600: #014A4B;
+  --color-teal-700: #01292A;
+  --color-teal-900: #001D1D;
+
+  --color-metzler-rot:   #D42924;
+  --color-digital-black: #1A171B;
+
+  --color-green: #009951;
+  --color-mint:  #5CDBD3;
+
+  --color-white: #FFFFFF;
+  --color-paper: #F5F6FA;
+  --color-graphite-100: #F0F0F0;
+  --color-graphite-200: #E6E6E8;
+  --color-graphite-300: #DADADA;
+  --color-graphite-400: #BFBFC2;
+  --color-graphite-450: #CCCCCC;
+  --color-graphite-500: #A1A1A1;
+  --color-graphite-600: #6A6A6A;
+  --color-graphite-700: #54545C;
+  --color-graphite-800: #2E2E36;
+  --color-graphite-850: #333333;
+  --color-graphite-900: #1A1A1F;
+
+  --radius-sm:   0.125rem;
+  --radius:      0.25rem;
+  --radius-lg:   0.5rem;
+  --radius-xl:   0.75rem;
+  --radius-pill: 624.94rem;
+
+  --shadow-card:  0 0.125rem 0.5rem rgba(0,0,0,0.08);
+  --shadow-hover: 0 0.25rem 1.25rem rgba(0,0,0,0.10);
+  --shadow-modal: 0 1.25rem 3.75rem rgba(0,0,0,0.2), 0 0.25rem 1rem rgba(0,0,0,0.1);
+}
+
+/* ══════════════════════════════════════════════════════════
+   2 · BASE + CONTAINER
+   ══════════════════════════════════════════════════════════ */
+* { box-sizing: border-box; }
+html { font-size: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  color: var(--color-graphite-800);
+  background: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+
+.container {
+  max-width: 100rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+@media (min-width: 48rem) {
+  .container { padding: 0 4rem; }
+}
+
+.eyebrow {
+  font-size: 0.75rem; font-weight: 700; line-height: 1.4;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--color-teal); margin: 0 0 0.75rem;
+}
+
+/* ══════════════════════════════════════════════════════════
+   3 · BUTTONS  (Design System §11)
+   ══════════════════════════════════════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  height: 2.625rem; padding: 0.7rem 1.2rem;
+  border: none; border-radius: var(--radius);
+  font-family: var(--font-family); font-size: 1rem; font-weight: 500;
+  line-height: 1.2; white-space: nowrap; text-decoration: none; cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.btn-sm { font-size: 0.9rem; font-weight: 400; }
+.btn-block { display: flex; width: 100%; text-align: center; }
+.btn-primary { background: var(--color-teal); color: var(--color-white); }
+.btn-primary:hover  { background: var(--color-teal-600); }
+.btn-primary:active { background: var(--color-teal-700); }
+
+/* ══════════════════════════════════════════════════════════
+   4 · HEADER — Row 1 Trust-Bar · Row 2 Logo/Suche/Icons · Row 3 Kategorie-Nav
+   Outer <header> hat KEIN horizontales Padding (Regel 5)
+   ══════════════════════════════════════════════════════════ */
+.site-header {
+  background: var(--color-white);
+  position: relative;
+  z-index: 100;
+}
+/* Sticky wird per JS beim ersten Scrollen aktiviert (Regel 6) */
+.site-header.is-sticky {
+  position: sticky; top: 0;
+  box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.08);
+}
+
+/* ── Row 1 · Trust-Bar ── */
+.trustbar {
+  background: var(--color-teal);
+  color: var(--color-white);
+  font-size: 0.75rem;
+  overflow: hidden;
+}
+.trustbar .container {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.25rem; height: 2.25rem;
+}
+.trustbar__list {
+  display: flex; align-items: center; gap: 1.25rem;
+  margin: 0; padding: 0; list-style: none;
+  overflow-x: auto; white-space: nowrap;
+  scrollbar-width: none;
+}
+.trustbar__list::-webkit-scrollbar { display: none; }
+.trustbar__list li { color: rgba(255,255,255,0.88); }
+.trustbar__meta { display: none; }
+.trustbar__meta a {
+  color: rgba(255,255,255,0.88); text-decoration: none;
+  transition: color 0.14s;
+}
+.trustbar__meta a:hover { color: var(--color-white); }
+@media (min-width: 48rem) {
+  .trustbar { font-size: 0.8125rem; }
+  .trustbar .container { height: 2.5rem; }
+  .trustbar__list { overflow: visible; }
+  .trustbar__meta { display: flex; align-items: center; gap: 1.25rem; flex-shrink: 0; }
+}
+
+/* ── Row 2 · Logo + Suche + Icons ── */
+.hdr-main {
+  border-bottom: 0.0625rem solid var(--color-graphite-200);
+}
+.hdr-main__inner {
+  display: flex; align-items: center; gap: 1rem;
+  height: 3.5rem;
+}
+.hdr-logo {
+  display: flex; align-items: center; gap: 0.625rem;
+  text-decoration: none; flex-shrink: 0;
+}
+.hdr-logo__word {
+  font-size: 1.0625rem; font-weight: 800; letter-spacing: 0.14em;
+  color: var(--color-digital-black);
+}
+.hdr-search {
+  flex: 1;
+  display: flex; align-items: center; gap: 0.625rem;
+  height: 2.5rem; padding: 0 0.9375rem;
+  background: var(--color-paper);
+  border: 0.0625rem solid var(--color-graphite-200);
+  border-radius: var(--radius);
+  color: var(--color-graphite-500);
+}
+.hdr-search input {
+  flex: 1; min-width: 0;
+  border: none; background: none; outline: none;
+  font-family: var(--font-family); font-size: 0.9375rem;
+  color: var(--color-digital-black);
+}
+.hdr-actions {
+  display: flex; align-items: center; gap: 0.375rem; flex-shrink: 0;
+}
+.hdr-icon-btn {
+  position: relative;
+  width: 2.5rem; height: 2.5rem;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-pill);
+  color: var(--color-digital-black); text-decoration: none;
+  transition: background 0.14s;
+}
+.hdr-icon-btn:hover { background: var(--color-paper); }
+.hdr-badge {
+  position: absolute; top: 0.25rem; right: 0.25rem;
+  min-width: 1rem; height: 1rem; padding: 0 0.25rem;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-pill);
+  background: var(--color-teal); color: var(--color-white);
+  font-size: 0.625rem; font-weight: 700;
+}
+.hdr-logo__word { display: none; }
+@media (min-width: 30rem) { .hdr-logo__word { display: block; } }
+@media (min-width: 48rem) {
+  .hdr-main__inner { height: 4.375rem; gap: 3.125rem; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   5 · KATEGORIE-NAV + MEGA-MENÜ
+   ══════════════════════════════════════════════════════════ */
+.nav {
+  position: relative;
+  background: var(--color-white);
+  border-bottom: 0.0625rem solid var(--color-graphite-200);
+}
+.nav__inner {
+  display: flex; align-items: stretch; gap: 0.25rem;
+  overflow-x: auto; white-space: nowrap;
+  scrollbar-width: none;
+}
+.nav__inner::-webkit-scrollbar { display: none; }
+.nav__item { position: static; display: flex; }
+.nav__link {
+  display: flex; align-items: center;
+  height: 3rem; padding: 0 0.75rem;
+  border: none; background: none;
+  font-family: var(--font-family); font-size: 1rem; font-weight: 500;
+  color: var(--color-digital-black); text-decoration: none; cursor: pointer;
+  border-bottom: 0.125rem solid transparent;
+  transition: color 0.14s, border-color 0.14s;
+}
+.nav__link:hover { color: var(--color-teal); }
+.nav__link.is-active {
+  color: var(--color-teal);
+  border-bottom-color: var(--color-teal);
+  font-weight: 700;
+}
+
+/* ── Mega-Panel ── */
+.mega {
+  display: none;
+  position: absolute; left: 0; right: 0; top: 100%;
+  background: var(--color-white);
+  border-top: 0.0625rem solid var(--color-graphite-200);
+  box-shadow: var(--shadow-hover);
+  z-index: 90;
+  white-space: normal;
+}
+.mega__inner { padding-top: 1.5rem; padding-bottom: 1.75rem; }
+.mega__layout { display: grid; gap: 1.5rem; }
+
+.mega__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem 1rem;
+}
+
+/* Kachel */
+.mega-tile { text-decoration: none; display: block; }
+.mega-tile__media {
+  display: block; padding: 0.5rem;
+  background: var(--color-white);
+  border: 0.0625rem solid var(--color-graphite-200);
+  border-radius: var(--radius-lg);
+  /* Nur Rahmen und Schatten reagieren — keine Bewegung, kein Versatz */
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+.mega-tile__media img { aspect-ratio: 1 / 1; object-fit: contain; width: 100%; }
+.mega-tile__label {
+  display: block; margin-top: 0.625rem;
+  font-size: 0.875rem; font-weight: 500; line-height: 1.35;
+  text-align: center; color: var(--color-graphite-800);
+  transition: color 0.16s ease;
+}
+.mega-tile:hover .mega-tile__media,
+.mega-tile:focus-visible .mega-tile__media {
+  border-color: var(--color-teal);
+  box-shadow: var(--shadow-hover);
+}
+.mega-tile:hover .mega-tile__label,
+.mega-tile:focus-visible .mega-tile__label { color: var(--color-teal); }
+
+/* Teaser rechts — die ganze Karte ist ein Hover-Ziel */
+.mega-promo {
+  position: relative;
+  background: var(--color-teal-50);
+  border: 0.0625rem solid var(--color-graphite-200);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  /* Nur Schatten und Rahmen reagieren — keine Bewegung, kein Versatz */
+  transition: box-shadow 0.16s ease, border-color 0.16s ease;
+}
+.mega-promo:hover,
+.mega-promo:focus-within {
+  /* identisch zu den Kacheln: Teal-Rahmen + Shadow-Hover, nur ohne Lift */
+  box-shadow: var(--shadow-hover);
+  border-color: var(--color-teal);
+}
+.mega-promo__media {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 0.375rem;
+  margin-bottom: 1rem;
+}
+.mega-promo__media img {
+  aspect-ratio: 1 / 1; object-fit: cover; width: 100%;
+  border-radius: var(--radius);
+}
+.mega-promo__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.125rem; font-weight: 700; line-height: 1.25;
+  letter-spacing: -0.01em; color: var(--color-digital-black);
+}
+
+/* Der CTA spannt sich unsichtbar über die ganze Karte — ein Link, keine
+   verschachtelten Anker, Klickfläche und Cursor gelten für die gesamte Karte. */
+.mega-promo .btn::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius-lg); }
+.mega-promo .btn:focus-visible { outline: 0.125rem solid var(--color-teal); outline-offset: 0.125rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mega-promo { transition: none; }
+}
+.mega-promo__meta {
+  margin: 0 0 1rem;
+  font-size: 0.8125rem; line-height: 1.5; color: var(--color-graphite-700);
+}
+
+/* Panel öffnen: Hover, Tastatur-Fokus oder Klick (Touch) */
+@media (min-width: 48rem) {
+  .nav__inner { overflow: visible; }
+  .nav__item--has-menu:hover .mega,
+  .nav__item--has-menu:focus-within .mega,
+  .mega.is-open { display: block; }
+  .nav__item--has-menu:hover .nav__link { color: var(--color-teal); }
+
+  .mega__layout { grid-template-columns: minmax(0, 1fr) 20rem; gap: 2.5rem; }
+  .mega__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+@media (max-width: 47.9375rem) {
+  .mega.is-open { display: block; position: static; box-shadow: none; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   6 · DEMO-INHALT (nur zur Vorschau des Headers)
+   ══════════════════════════════════════════════════════════ */
+.demo { padding: 3rem 0 6rem; }
+.demo h1 {
+  margin: 0 0 1rem;
+  font-size: 1.75rem; font-weight: 700; line-height: 1.15;
+  letter-spacing: -0.02em; color: var(--color-digital-black);
+}
+.demo p { margin: 0 0 0.75rem; max-width: 46rem; line-height: 1.6; color: var(--color-graphite-700); }
+.demo__hint {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  margin-top: 0.5rem; padding: 0.625rem 0.875rem;
+  background: var(--color-teal-50); border-radius: var(--radius-lg);
+  font-size: 0.875rem; color: var(--color-teal);
+}
+@media (min-width: 48rem) {
+  .demo { padding: 4rem 0 12rem; }
+  .demo h1 { font-size: 2.875rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER (Design System — 3 Reihen) ═══════════ -->
+<header class="site-header" id="site-header">
+
+  <!-- Row 1 · Trust-Bar -->
+  <div class="trustbar">
+    <div class="container">
+      <ul class="trustbar__list">
+        <li>Original Metzler Qualität seit 2013</li>
+        <li>über 1,8 Mio. zufriedene Kunden</li>
+        <li>10 Jahre Metzler Garantie</li>
+        <li>Trusted Shops Käuferschutz</li>
+        <li>Kauf auf Rechnung</li>
+      </ul>
+      <div class="trustbar__meta">
+        <a href="#">Kontaktiere uns</a>
+        <a href="#">Zahlung &amp; Versand</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2 · Logo + Suche + Icons -->
+  <div class="hdr-main">
+    <div class="container hdr-main__inner">
+      <a href="/" class="hdr-logo" aria-label="Metzler Startseite">
+        <svg width="32" height="32" viewBox="0 0 184.3 184.3" aria-hidden="true">
+          <rect width="184.3" height="184.3" rx="5.75" fill="#D42924"/>
+          <path fill="#fff" d="M70.19,34.81l19.04,32.98-9.58,16.57-28.59-49.55h19.13ZM70.28,108.58h0l-23.45-40.64v85.89h-16.57V34.81h16.57l33.02,57.21L123.92,15.65h19.13l-63.22,109.52-9.58-16.57.02-.02ZM153.14,153.83h-16.57v-85.87l-33,57.14h-19.13l52.11-90.28h16.57v119.02l.02-.02Z"/>
+        </svg>
+        <span class="hdr-logo__word">METZLER</span>
+      </a>
+
+      <div class="hdr-search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></circle>
+          <path d="M16.5 16.5l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+        </svg>
+        <input type="search" aria-label="Produkte suchen" placeholder="Suchen — Türklingel, Briefkasten, Sprechanlage …">
+      </div>
+
+      <div class="hdr-actions">
+        <a href="#" class="hdr-icon-btn" aria-label="Mein Konto">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></circle>
+            <path d="M5 21a7 7 0 0114 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+          </svg>
+        </a>
+        <a href="#" class="hdr-icon-btn" aria-label="Warenkorb, 0 Artikel">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></rect>
+            <rect x="8" y="8.5" width="8" height="4" rx="2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></rect>
+          </svg>
+          <span class="hdr-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 3 · Kategorie-Nav mit Mega-Menü -->
+  <nav class="nav" aria-label="Hauptkategorien">
+    <div class="container nav__inner">
+
+      <div class="nav__item nav__item--has-menu">
+        <a href="/briefkasten" class="nav__link is-active" aria-haspopup="true" aria-expanded="false" aria-controls="mega-briefkaesten">Briefkästen</a>
+
+        <div class="mega" id="mega-briefkaesten" role="group" aria-label="Briefkästen – Unterkategorien">
+          <div class="container mega__inner">
+            <div class="mega__layout">
+
+              <div class="mega__grid">
+                <a class="mega-tile" href="/briefkasten">
+                  <span class="mega-tile__media"><img src="briefkaesten-subkategorien/01-einfamilien-briefkasten.webp?v=2" alt="Einfamilien Briefkasten in Anthrazit mit Edelstahl-Namensschild" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Einfamilien Briefkasten</span>
+                </a>
+                <a class="mega-tile" href="/briefkasten-ohne-gravur">
+                  <span class="mega-tile__media"><img src="briefkaesten-subkategorien/02-briefkasten-ohne-gravur.webp?v=2" alt="Briefkasten ohne Gravur, schlichtes Anthrazit" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Briefkasten ohne Gravur</span>
+                </a>
+                <a class="mega-tile" href="/standbriefkasten-sets">
+                  <span class="mega-tile__media"><img src="briefkaesten-subkategorien/03-standbriefkasten.webp?v=2" alt="Standbriefkasten auf Edelstahl-Standrohren" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Standbriefkästen</span>
+                </a>
+                <a class="mega-tile" href="/briefkasten-funkklingel-sprechanlage">
+                  <span class="mega-tile__media"><img src="briefkaesten-subkategorien/04b-klingel-signal.webp?v=2" alt="Briefkasten mit Klingeltaster und Sprechanlage" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Briefkasten mit Klingel &amp; Sprechanlage</span>
+                </a>
+                <a class="mega-tile" href="/briefkasten-zweifamilienhaus">
+                  <span class="mega-tile__media"><img src="briefkaesten-subkategorien/05-mehrfamilien-briefkasten.webp?v=2" alt="Mehrfamilien Briefkastenanlage mit vier quadratischen Fächern" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Mehrfamilien Briefkästen</span>
+                </a>
+                <a class="mega-tile" href="/unterputz-briefkaesten">
+                  <span class="mega-tile__media"><img src="briefkaesten-subkategorien/06-unterputz-briefkasten.webp?v=2" alt="Unterputz Briefkasten mit eingelassenem Frontpaneel und Gravur Hauptstraße 27" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Unterputz Briefkästen</span>
+                </a>
+                <a class="mega-tile" href="/paketbox">
+                  <span class="mega-tile__media"><img src="briefkaesten-subkategorien/07-paketbox.webp?v=2" alt="Paketbox mit integriertem Briefkasten und Edelstahl-Gravurschild" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Paketboxen</span>
+                </a>
+                <a class="mega-tile" href="/briefkastenanlage">
+                  <span class="mega-tile__media"><img src="briefkaesten-subkategorien/08-briefkastenanlagen-konfigurator.webp?v=2" alt="Modulare Briefkastenanlage 3 x 3 mit Video-Sprechmodul und Klingeltastern" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Briefkastenanlagen Konfigurator</span>
+                </a>
+                <a class="mega-tile" href="/briefkastenschilder">
+                  <span class="mega-tile__media"><img src="briefkaesten-subkategorien/09-briefkastenschild.webp?v=2" alt="Briefkastenschild mit Lasergravur zweier Namen" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Briefkastenschilder</span>
+                </a>
+                <a class="mega-tile" href="/briefkastenstaender">
+                  <span class="mega-tile__media"><img src="briefkaesten-subkategorien/10-briefkastenstaender.webp?v=2" alt="Briefkastenständer aus V2A Edelstahl" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Briefkastenständer</span>
+                </a>
+                <a class="mega-tile" href="/briefkasten-zubehoer">
+                  <span class="mega-tile__media"><img src="briefkaesten-subkategorien/11-ersatzteile-zubehoer.webp?v=2" alt="Schließzylinder und Ersatzschlüssel als Briefkasten-Zubehör" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Ersatzteile &amp; Zubehör</span>
+                </a>
+              </div>
+
+              <aside class="mega-promo">
+                <div class="mega-promo__media">
+                  <img src="briefkaesten-subkategorien/promo-einfamilien-briefkasten-wand-1x1.webp?v=2" alt="Metzler Einfamilien Briefkasten aus Stahl, montiert an einer weißen Putzwand im Sonnenlicht" loading="lazy" width="1200" height="1200">
+                </div>
+                <p class="eyebrow">Einfamilien Briefkasten</p>
+                <h3 class="mega-promo__title">Metzler Briefkasten aus hochwertigem Stahl</h3>
+                <p class="mega-promo__meta">Farbe · Lasergravur · Befestigung</p>
+                <a class="btn btn-primary btn-block" href="/briefkasten">Jetzt konfigurieren</a>
+              </aside>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav__item"><a href="/paketbox" class="nav__link">Paketboxen</a></div>
+      <div class="nav__item"><a href="#" class="nav__link">Mülltonnenboxen</a></div>
+      <div class="nav__item nav__item--has-menu">
+        <a href="/tuersprechanlagen" class="nav__link" aria-haspopup="true" aria-expanded="false" aria-controls="mega-sprechanlagen">Sprechanlagen</a>
+
+        <div class="mega" id="mega-sprechanlagen" role="group" aria-label="Sprechanlagen – Unterkategorien">
+          <div class="container mega__inner">
+            <div class="mega__layout">
+
+              <div class="mega__grid">
+                <a class="mega-tile" href="/video-tuersprechanlagen">
+                  <span class="mega-tile__media"><img src="sprechanlagen-subkategorien/01-video-sprechanlagen.webp?v=2" alt="Video Sprechanlagen" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Video Sprechanlagen</span>
+                </a>
+                <a class="mega-tile" href="/sprechanlagen-sets">
+                  <span class="mega-tile__media"><img src="sprechanlagen-subkategorien/02-sprechanlagen-sets.webp?v=2" alt="Sprechanlagen Sets" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Sprechanlagen Sets</span>
+                </a>
+                <a class="mega-tile" href="/audio-tuersprechanlagen">
+                  <span class="mega-tile__media"><img src="sprechanlagen-subkategorien/03-audio-sprechanlagen.webp?v=2" alt="Audio Sprechanlagen" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Audio Sprechanlagen</span>
+                </a>
+                <a class="mega-tile" href="/sprechanlage-briefkasten">
+                  <span class="mega-tile__media"><img src="sprechanlagen-subkategorien/04-sprechanlage-briefkasten-paketbox.webp?v=2" alt="Video Sprechanlagen mit Briefkasten und Paketbox" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Video Sprechanlagen mit Briefkasten/Paketbox</span>
+                </a>
+                <a class="mega-tile" href="/briefkastenanlage">
+                  <span class="mega-tile__media"><img src="sprechanlagen-subkategorien/05-briefkastenanlagen-konfigurator.webp?v=2" alt="Briefkastenanlagen Konfigurator" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Briefkastenanlagen Konfigurator</span>
+                </a>
+                <a class="mega-tile" href="/innenstationen">
+                  <span class="mega-tile__media"><img src="sprechanlagen-subkategorien/06-innenstationen.webp?v=2" alt="Innenstationen" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Innenstationen</span>
+                </a>
+                <a class="mega-tile" href="/ersatz-namensschilder">
+                  <span class="mega-tile__media"><img src="sprechanlagen-subkategorien/07-ersatz-namensschilder.webp?v=2" alt="Ersatz Namensschilder" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Ersatz Namensschilder</span>
+                </a>
+                <a class="mega-tile" href="/vdm10-zubehoer">
+                  <span class="mega-tile__media"><img src="sprechanlagen-subkategorien/08-erweiterungen-zubehoer.webp?v=2" alt="Erweiterungen und Zubehör" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Erweiterungen &amp; Zubehör</span>
+                </a>
+              </div>
+
+              <aside class="mega-promo">
+                <div class="mega-promo__media">
+                  <img src="sprechanlagen-subkategorien/promo-xdm10-wand-1x1.webp" alt="Metzler XDM10 Video-Türsprechanlage, montiert an einer weißen Putzwand" loading="lazy" width="1200" height="1200">
+                </div>
+                <p class="eyebrow">Video-Türsprechanlage</p>
+                <h3 class="mega-promo__title">Metzler XDM10 mit austauschbarem Namensschild</h3>
+                <p class="mega-promo__meta">Farbe · Namensschild · Klingeltaster</p>
+                <a class="btn btn-primary btn-block" href="/video-tuersprechanlagen">Jetzt konfigurieren</a>
+              </aside>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item"><a href="#" class="nav__link">Sicherheitstechnik</a></div>
+      <div class="nav__item"><a href="#" class="nav__link">Türklingeln</a></div>
+      <div class="nav__item"><a href="#" class="nav__link">Hausnummern</a></div>
+      <div class="nav__item"><a href="#" class="nav__link">Außenleuchten</a></div>
+      <div class="nav__item"><a href="#" class="nav__link">Garten</a></div>
+
+    </div>
+  </nav>
+</header>
+
+<!-- ═══════════ DEMO-INHALT ═══════════ -->
+<main>
+  <section class="demo">
+    <div class="container">
+      <p class="eyebrow">Header · Mega-Menü</p>
+      <h1>Briefkästen</h1>
+      <p>Diese Seite zeigt den Metzler-Header mit dem neuen Mega-Menü der Kategorie „Briefkästen“ – 11 Unterkategorien als Kachelraster plus Teaser-Karte rechts, im Layout der Sprechanlagen-Navigation.</p>
+      <p class="demo__hint">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></circle>
+          <path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+        </svg>
+        Mit der Maus über „Briefkästen“ fahren – oder mit Tab dorthin navigieren.
+      </p>
+    </div>
+  </section>
+</main>
+
+<script>
+// Sticky-Header: startet NICHT sticky, wird beim ersten Scrollen aktiviert
+var siteHeader = document.getElementById('site-header');
+function onScroll() {
+  siteHeader.classList.toggle('is-sticky', window.scrollY > 0);
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// Mega-Menü: Hover/Fokus per CSS · Klick-Toggle für Touch-Geräte
+document.querySelectorAll('.nav__item--has-menu').forEach(function (item) {
+  var link = item.querySelector('.nav__link');
+  var panel = item.querySelector('.mega');
+
+  link.addEventListener('click', function (event) {
+    // Desktop (≥ 48rem): Hover/Fokus öffnet das Panel — Klick folgt dem Link.
+    // Mobil (< 48rem): Klick klappt das Panel auf, gleiche Grenze wie im CSS.
+    if (window.matchMedia('(min-width: 48rem)').matches) return;
+    event.preventDefault();
+    var open = panel.classList.toggle('is-open');
+    link.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  item.addEventListener('mouseenter', function () { link.setAttribute('aria-expanded', 'true'); });
+  item.addEventListener('mouseleave', function () { link.setAttribute('aria-expanded', 'false'); });
+});
+
+// Escape schließt ein geöffnetes Panel
+document.addEventListener('keydown', function (event) {
+  if (event.key !== 'Escape') return;
+  document.querySelectorAll('.mega.is-open').forEach(function (panel) {
+    panel.classList.remove('is-open');
+    panel.parentElement.querySelector('.nav__link').setAttribute('aria-expanded', 'false');
+  });
+});
+</script>
+</body>
+</html>

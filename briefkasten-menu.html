@@ -362,25 +362,9 @@ img { max-width: 100%; height: auto; display: block; }
   .showcase__title { font-size: 1.75rem; }
 }
 
-/* ══════════════════════════════════════════════════════════
-   6 · DEMO-INHALT (nur zur Vorschau des Headers)
-   ══════════════════════════════════════════════════════════ */
-.demo { padding: 3rem 0 6rem; }
-.demo h1 {
-  margin: 0 0 1rem;
-  font-size: 1.75rem; font-weight: 700; line-height: 1.15;
-  letter-spacing: -0.02em; color: var(--color-digital-black);
-}
-.demo p { margin: 0 0 0.75rem; max-width: 46rem; line-height: 1.6; color: var(--color-graphite-700); }
-.demo__hint {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  margin-top: 0.5rem; padding: 0.625rem 0.875rem;
-  background: var(--color-teal-50); border-radius: var(--radius-lg);
-  font-size: 0.875rem; color: var(--color-teal);
-}
+#showcases { padding-bottom: 6rem; }
 @media (min-width: 48rem) {
-  .demo { padding: 4rem 0 12rem; }
-  .demo h1 { font-size: 2.875rem; }
+  #showcases { padding-bottom: 8rem; }
 }
 </style>
 </head>
@@ -543,7 +527,7 @@ img { max-width: 100%; height: auto; display: block; }
                   <span class="mega-tile__label">Video Sprechanlagen mit Briefkasten/Paketbox</span>
                 </a>
                 <a class="mega-tile" href="/briefkastenanlage">
-                  <span class="mega-tile__media"><img src="sprechanlagen-subkategorien/05-briefkastenanlagen-konfigurator.webp?v=2" alt="Briefkastenanlagen Konfigurator" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__media"><img src="sprechanlagen-subkategorien/05-briefkastenanlagen-konfigurator.webp?v=2" alt="Briefkastenanlagen Konfigurator" loading="lazy" width="1262" height="1200"></span>
                   <span class="mega-tile__label">Briefkastenanlagen Konfigurator</span>
                 </a>
                 <a class="mega-tile" href="/innenstationen">
@@ -586,21 +570,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 <!-- ═══════════ DEMO-INHALT ═══════════ -->
 <main>
-  <section class="demo">
-    <div class="container">
-      <p class="eyebrow">Header · Mega-Menü</p>
-      <h1>Kategorie-Flyouts</h1>
-      <p>Der Header oben ist voll bedienbar: Mit der Maus über eine Kategorie fahren – oder mit Tab dorthin navigieren. Darunter steht jedes Flyout noch einmal einzeln und dauerhaft geöffnet, damit sich die Abschnitte nebeneinander vergleichen lassen. Alle Hover-Zustände funktionieren dort genauso.</p>
-      <p class="demo__hint">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></circle>
-          <path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
-        </svg>
-        Kacheln und Teaser-Karte reagieren auch in den Abschnitten unten auf Hover.
-      </p>
-    </div>
-  </section>
-
   <!-- Ein Abschnitt je Kategorie, per JS aus dem Header dupliziert -->
   <div id="showcases"></div>
 </main>

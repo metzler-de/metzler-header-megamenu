@@ -336,6 +336,33 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ══════════════════════════════════════════════════════════
+   6 · SHOWCASE — jedes Flyout dauerhaft geöffnet, eines je Abschnitt
+   ══════════════════════════════════════════════════════════ */
+.mega.is-static {
+  display: block;
+  position: static;
+  box-shadow: none;
+  border-top: 0.0625rem solid var(--color-graphite-200);
+}
+.showcase { margin-top: 3rem; }
+.showcase__head { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.showcase__title {
+  margin: 0;
+  font-size: 1.5rem; font-weight: 700; line-height: 1.2;
+  letter-spacing: -0.02em; color: var(--color-digital-black);
+}
+.showcase__count { font-size: 0.875rem; color: var(--color-graphite-600); }
+.showcase__frame {
+  border-top: 0.0625rem solid var(--color-graphite-200);
+  border-bottom: 0.0625rem solid var(--color-graphite-200);
+  background: var(--color-white);
+}
+@media (min-width: 48rem) {
+  .showcase { margin-top: 4rem; }
+  .showcase__title { font-size: 1.75rem; }
+}
+
+/* ══════════════════════════════════════════════════════════
    6 · DEMO-INHALT (nur zur Vorschau des Headers)
    ══════════════════════════════════════════════════════════ */
 .demo { padding: 3rem 0 6rem; }
@@ -562,17 +589,20 @@ img { max-width: 100%; height: auto; display: block; }
   <section class="demo">
     <div class="container">
       <p class="eyebrow">Header · Mega-Menü</p>
-      <h1>Briefkästen</h1>
-      <p>Diese Seite zeigt den Metzler-Header mit dem neuen Mega-Menü der Kategorie „Briefkästen“ – 11 Unterkategorien als Kachelraster plus Teaser-Karte rechts, im Layout der Sprechanlagen-Navigation.</p>
+      <h1>Kategorie-Flyouts</h1>
+      <p>Der Header oben ist voll bedienbar: Mit der Maus über eine Kategorie fahren – oder mit Tab dorthin navigieren. Darunter steht jedes Flyout noch einmal einzeln und dauerhaft geöffnet, damit sich die Abschnitte nebeneinander vergleichen lassen. Alle Hover-Zustände funktionieren dort genauso.</p>
       <p class="demo__hint">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></circle>
           <path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
         </svg>
-        Mit der Maus über „Briefkästen“ fahren – oder mit Tab dorthin navigieren.
+        Kacheln und Teaser-Karte reagieren auch in den Abschnitten unten auf Hover.
       </p>
     </div>
   </section>
+
+  <!-- Ein Abschnitt je Kategorie, per JS aus dem Header dupliziert -->
+  <div id="showcases"></div>
 </main>
 
 <script>
@@ -584,8 +614,76 @@ function onScroll() {
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
-// Mega-Menü: Hover/Fokus per CSS · Klick-Toggle für Touch-Geräte
-document.querySelectorAll('.nav__item--has-menu').forEach(function (item) {
+// ── Ein Abschnitt je Kategorie: Navigation samt geöffnetem Flyout duplizieren.
+// Quelle ist der Header, damit Markup und Bilder nur einmal gepflegt werden.
+(function buildShowcases() {
+  var host = document.getElementById('showcases');
+  var headerNav = document.querySelector('#site-header .nav');
+  if (!host || !headerNav) return;
+
+  document.querySelectorAll('#site-header .nav__item--has-menu').forEach(function (source) {
+    var label = source.querySelector('.nav__link').textContent.trim();
+    var nav = headerNav.cloneNode(true);
+
+    // Alle Panels aus der Nav-Zeile lösen. Das Flyout dieser Kategorie wandert
+    // als Geschwister unter die Navigation — im Header liegt es absolut über der
+    // Seite, hier steht es dauerhaft im Fluss.
+    var panel = null, tiles = 0;
+    nav.querySelectorAll('.nav__item--has-menu').forEach(function (item) {
+      var found = item.querySelector('.mega');
+      if (found && item.querySelector('.nav__link').textContent.trim() === label) {
+        panel = found;
+        tiles = found.querySelectorAll('.mega-tile').length;
+      }
+      if (found) found.remove();
+      item.classList.remove('nav__item--has-menu');
+    });
+    if (!panel) return;
+    panel.classList.add('is-static');
+
+    // Aktiv-Zustand nur auf dieser Kategorie; ARIA-Attribute des Originals entfernen,
+    // das Panel ist hier statisch und kein aufklappbares Menü mehr.
+    nav.querySelectorAll('.nav__link').forEach(function (link) {
+      link.classList.toggle('is-active', link.textContent.trim() === label);
+      link.removeAttribute('aria-haspopup');
+      link.removeAttribute('aria-expanded');
+      link.removeAttribute('aria-controls');
+    });
+    nav.removeAttribute('aria-label');
+    [nav, panel].forEach(function (root) {
+      root.querySelectorAll('[id]').forEach(function (node) { node.removeAttribute('id'); });
+      root.removeAttribute('id');
+      // Die Kacheln stehen sichtbar auf der Seite — nicht mehr verzögert laden.
+      root.querySelectorAll('img').forEach(function (img) { img.setAttribute('loading', 'eager'); });
+    });
+
+    var section = document.createElement('section');
+    section.className = 'showcase';
+
+    var head = document.createElement('div');
+    head.className = 'container showcase__head';
+    var title = document.createElement('h2');
+    title.className = 'showcase__title';
+    title.textContent = label;
+    var count = document.createElement('span');
+    count.className = 'showcase__count';
+    count.textContent = tiles + ' Unterkategorien + Teaser';
+    head.appendChild(title);
+    head.appendChild(count);
+
+    var frame = document.createElement('div');
+    frame.className = 'showcase__frame';
+    frame.appendChild(nav);
+    frame.appendChild(panel);
+
+    section.appendChild(head);
+    section.appendChild(frame);
+    host.appendChild(section);
+  });
+})();
+
+// Mega-Menü im Header: Hover/Fokus per CSS · Klick-Toggle für Touch-Geräte
+document.querySelectorAll('#site-header .nav__item--has-menu').forEach(function (item) {
   var link = item.querySelector('.nav__link');
   var panel = item.querySelector('.mega');
 
@@ -605,7 +703,7 @@ document.querySelectorAll('.nav__item--has-menu').forEach(function (item) {
 // Escape schließt ein geöffnetes Panel
 document.addEventListener('keydown', function (event) {
   if (event.key !== 'Escape') return;
-  document.querySelectorAll('.mega.is-open').forEach(function (panel) {
+  document.querySelectorAll('#site-header .mega.is-open').forEach(function (panel) {
     panel.classList.remove('is-open');
     panel.parentElement.querySelector('.nav__link').setAttribute('aria-expanded', 'false');
   });

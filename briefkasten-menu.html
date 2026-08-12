@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Metzler – Header mit Mega-Menü „Briefkästen“</title>
+<title>Metzler – Kategorie-Flyouts</title>
 <style>
 /* ══════════════════════════════════════════════════════════
    1 · DESIGN TOKENS  (Metzler Design System — inline fallback)
@@ -96,109 +96,6 @@ img { max-width: 100%; height: auto; display: block; }
 .btn-primary:hover  { background: var(--color-teal-600); }
 .btn-primary:active { background: var(--color-teal-700); }
 
-/* ══════════════════════════════════════════════════════════
-   4 · HEADER — Row 1 Trust-Bar · Row 2 Logo/Suche/Icons · Row 3 Kategorie-Nav
-   Outer <header> hat KEIN horizontales Padding (Regel 5)
-   ══════════════════════════════════════════════════════════ */
-.site-header {
-  background: var(--color-white);
-  position: relative;
-  z-index: 100;
-}
-/* Sticky wird per JS beim ersten Scrollen aktiviert (Regel 6) */
-.site-header.is-sticky {
-  position: sticky; top: 0;
-  box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.08);
-}
-
-/* ── Row 1 · Trust-Bar ── */
-.trustbar {
-  background: var(--color-teal);
-  color: var(--color-white);
-  font-size: 0.75rem;
-  overflow: hidden;
-}
-.trustbar .container {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 1.25rem; height: 2.25rem;
-}
-.trustbar__list {
-  display: flex; align-items: center; gap: 1.25rem;
-  margin: 0; padding: 0; list-style: none;
-  overflow-x: auto; white-space: nowrap;
-  scrollbar-width: none;
-}
-.trustbar__list::-webkit-scrollbar { display: none; }
-.trustbar__list li { color: rgba(255,255,255,0.88); }
-.trustbar__meta { display: none; }
-.trustbar__meta a {
-  color: rgba(255,255,255,0.88); text-decoration: none;
-  transition: color 0.14s;
-}
-.trustbar__meta a:hover { color: var(--color-white); }
-@media (min-width: 48rem) {
-  .trustbar { font-size: 0.8125rem; }
-  .trustbar .container { height: 2.5rem; }
-  .trustbar__list { overflow: visible; }
-  .trustbar__meta { display: flex; align-items: center; gap: 1.25rem; flex-shrink: 0; }
-}
-
-/* ── Row 2 · Logo + Suche + Icons ── */
-.hdr-main {
-  border-bottom: 0.0625rem solid var(--color-graphite-200);
-}
-.hdr-main__inner {
-  display: flex; align-items: center; gap: 1rem;
-  height: 3.5rem;
-}
-.hdr-logo {
-  display: flex; align-items: center; gap: 0.625rem;
-  text-decoration: none; flex-shrink: 0;
-}
-.hdr-logo__word {
-  font-size: 1.0625rem; font-weight: 800; letter-spacing: 0.14em;
-  color: var(--color-digital-black);
-}
-.hdr-search {
-  flex: 1;
-  display: flex; align-items: center; gap: 0.625rem;
-  height: 2.5rem; padding: 0 0.9375rem;
-  background: var(--color-paper);
-  border: 0.0625rem solid var(--color-graphite-200);
-  border-radius: var(--radius);
-  color: var(--color-graphite-500);
-}
-.hdr-search input {
-  flex: 1; min-width: 0;
-  border: none; background: none; outline: none;
-  font-family: var(--font-family); font-size: 0.9375rem;
-  color: var(--color-digital-black);
-}
-.hdr-actions {
-  display: flex; align-items: center; gap: 0.375rem; flex-shrink: 0;
-}
-.hdr-icon-btn {
-  position: relative;
-  width: 2.5rem; height: 2.5rem;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: var(--radius-pill);
-  color: var(--color-digital-black); text-decoration: none;
-  transition: background 0.14s;
-}
-.hdr-icon-btn:hover { background: var(--color-paper); }
-.hdr-badge {
-  position: absolute; top: 0.25rem; right: 0.25rem;
-  min-width: 1rem; height: 1rem; padding: 0 0.25rem;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: var(--radius-pill);
-  background: var(--color-teal); color: var(--color-white);
-  font-size: 0.625rem; font-weight: 700;
-}
-.hdr-logo__word { display: none; }
-@media (min-width: 30rem) { .hdr-logo__word { display: block; } }
-@media (min-width: 48rem) {
-  .hdr-main__inner { height: 4.375rem; gap: 3.125rem; }
-}
 
 /* ══════════════════════════════════════════════════════════
    5 · KATEGORIE-NAV + MEGA-MENÜ
@@ -370,64 +267,10 @@ img { max-width: 100%; height: auto; display: block; }
 </head>
 <body>
 
-<!-- ═══════════ HEADER (Design System — 3 Reihen) ═══════════ -->
-<header class="site-header" id="site-header">
-
-  <!-- Row 1 · Trust-Bar -->
-  <div class="trustbar">
-    <div class="container">
-      <ul class="trustbar__list">
-        <li>Original Metzler Qualität seit 2013</li>
-        <li>über 1,8 Mio. zufriedene Kunden</li>
-        <li>10 Jahre Metzler Garantie</li>
-        <li>Trusted Shops Käuferschutz</li>
-        <li>Kauf auf Rechnung</li>
-      </ul>
-      <div class="trustbar__meta">
-        <a href="#">Kontaktiere uns</a>
-        <a href="#">Zahlung &amp; Versand</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Row 2 · Logo + Suche + Icons -->
-  <div class="hdr-main">
-    <div class="container hdr-main__inner">
-      <a href="/" class="hdr-logo" aria-label="Metzler Startseite">
-        <svg width="32" height="32" viewBox="0 0 184.3 184.3" aria-hidden="true">
-          <rect width="184.3" height="184.3" rx="5.75" fill="#D42924"/>
-          <path fill="#fff" d="M70.19,34.81l19.04,32.98-9.58,16.57-28.59-49.55h19.13ZM70.28,108.58h0l-23.45-40.64v85.89h-16.57V34.81h16.57l33.02,57.21L123.92,15.65h19.13l-63.22,109.52-9.58-16.57.02-.02ZM153.14,153.83h-16.57v-85.87l-33,57.14h-19.13l52.11-90.28h16.57v119.02l.02-.02Z"/>
-        </svg>
-        <span class="hdr-logo__word">METZLER</span>
-      </a>
-
-      <div class="hdr-search">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></circle>
-          <path d="M16.5 16.5l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
-        </svg>
-        <input type="search" aria-label="Produkte suchen" placeholder="Suchen — Türklingel, Briefkasten, Sprechanlage …">
-      </div>
-
-      <div class="hdr-actions">
-        <a href="#" class="hdr-icon-btn" aria-label="Mein Konto">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></circle>
-            <path d="M5 21a7 7 0 0114 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
-          </svg>
-        </a>
-        <a href="#" class="hdr-icon-btn" aria-label="Warenkorb, 0 Artikel">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></rect>
-            <rect x="8" y="8.5" width="8" height="4" rx="2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"></rect>
-          </svg>
-          <span class="hdr-badge">0</span>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Row 3 · Kategorie-Nav mit Mega-Menü -->
+<!-- Quelle für die Abschnitte unten: Kategorie-Navigation mit den Flyouts.
+     Als <template> wird hier nichts gerendert und nichts geladen — die
+     Abschnitte werden daraus geklont. -->
+<template id="menu-source">
   <nav class="nav" aria-label="Hauptkategorien">
     <div class="container nav__inner">
 
@@ -500,7 +343,50 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
       </div>
 
-      <div class="nav__item"><a href="/paketbox" class="nav__link">Paketboxen</a></div>
+      <div class="nav__item nav__item--has-menu">
+        <a href="/paketboxen" class="nav__link" aria-haspopup="true" aria-expanded="false" aria-controls="mega-paketboxen">Paketboxen</a>
+
+        <div class="mega" id="mega-paketboxen" role="group" aria-label="Paketboxen – Unterkategorien">
+          <div class="container mega__inner">
+            <div class="mega__layout">
+
+              <div class="mega__grid">
+                <a class="mega-tile" href="/paketboxen-mit-gravur">
+                  <span class="mega-tile__media"><img src="paketboxen-subkategorien/01-paketboxen-mit-gravur.webp?v=2" alt="Paketboxen mit Gravur" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Paketboxen mit Gravur</span>
+                </a>
+                <a class="mega-tile" href="/paketboxen-beleuchtet">
+                  <span class="mega-tile__media"><img src="paketboxen-subkategorien/02-paketboxen-beleuchtet.webp?v=2" alt="Beleuchtete Paketboxen" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Paketboxen beleuchtet</span>
+                </a>
+                <a class="mega-tile" href="/paketboxen-mit-klingel-sprechanlage">
+                  <span class="mega-tile__media"><img src="paketboxen-subkategorien/03-paketboxen-mit-klingel-sprechanlage.webp?v=2" alt="Paketboxen mit Klingel und Sprechanlage" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Paketboxen mit Klingel &amp; Sprechanlage</span>
+                </a>
+                <a class="mega-tile" href="/paketboxen-ohne-gravur">
+                  <span class="mega-tile__media"><img src="paketboxen-subkategorien/04-paketboxen-ohne-gravur.webp?v=2" alt="Paketboxen ohne Gravur" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Paketboxen ohne Gravur</span>
+                </a>
+                <a class="mega-tile" href="/ersatzteile-zubehoer">
+                  <span class="mega-tile__media"><img src="paketboxen-subkategorien/05-ersatzteile-zubehoer.webp?v=2" alt="Ersatzteile und Zubehör für Paketboxen" loading="lazy" width="1200" height="1200"></span>
+                  <span class="mega-tile__label">Ersatzteile &amp; Zubehör</span>
+                </a>
+              </div>
+
+              <aside class="mega-promo">
+                <div class="mega-promo__media">
+                  <img src="paketboxen-subkategorien/promo-paketbox-wand-1x1.webp" alt="Metzler Paketbox XL mit Briefkasten, montiert an einer weißen Putzwand" loading="lazy" width="1200" height="1200">
+                </div>
+                <p class="eyebrow">Paketbox mit Briefkasten</p>
+                <h3 class="mega-promo__title">Metzler Paketbox XL mit Briefkasten</h3>
+                <p class="mega-promo__meta">Farbe · Lasergravur · Befestigung</p>
+                <a class="btn btn-primary btn-block" href="/paketboxen-mit-gravur">Jetzt konfigurieren</a>
+              </aside>
+
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="nav__item"><a href="#" class="nav__link">Mülltonnenboxen</a></div>
       <div class="nav__item nav__item--has-menu">
         <a href="/tuersprechanlagen" class="nav__link" aria-haspopup="true" aria-expanded="false" aria-controls="mega-sprechanlagen">Sprechanlagen</a>
@@ -566,37 +452,31 @@ img { max-width: 100%; height: auto; display: block; }
 
     </div>
   </nav>
-</header>
+</template>
 
 <!-- ═══════════ DEMO-INHALT ═══════════ -->
 <main>
-  <!-- Ein Abschnitt je Kategorie, per JS aus dem Header dupliziert -->
+  <!-- Ein Abschnitt je Kategorie, aus dem Template dupliziert -->
   <div id="showcases"></div>
 </main>
 
 <script>
-// Sticky-Header: startet NICHT sticky, wird beim ersten Scrollen aktiviert
-var siteHeader = document.getElementById('site-header');
-function onScroll() {
-  siteHeader.classList.toggle('is-sticky', window.scrollY > 0);
-}
-window.addEventListener('scroll', onScroll, { passive: true });
-onScroll();
-
 // ── Ein Abschnitt je Kategorie: Navigation samt geöffnetem Flyout duplizieren.
-// Quelle ist der Header, damit Markup und Bilder nur einmal gepflegt werden.
+// Quelle ist das Template, damit Markup und Bilder nur einmal gepflegt werden.
 (function buildShowcases() {
   var host = document.getElementById('showcases');
-  var headerNav = document.querySelector('#site-header .nav');
-  if (!host || !headerNav) return;
+  var source = document.getElementById('menu-source');
+  if (!host || !source) return;
+  var sourceNav = source.content.querySelector('.nav');
+  if (!sourceNav) return;
 
-  document.querySelectorAll('#site-header .nav__item--has-menu').forEach(function (source) {
-    var label = source.querySelector('.nav__link').textContent.trim();
-    var nav = headerNav.cloneNode(true);
+  source.content.querySelectorAll('.nav__item--has-menu').forEach(function (item) {
+    var label = item.querySelector('.nav__link').textContent.trim();
+    var nav = sourceNav.cloneNode(true);
 
     // Alle Panels aus der Nav-Zeile lösen. Das Flyout dieser Kategorie wandert
-    // als Geschwister unter die Navigation — im Header liegt es absolut über der
-    // Seite, hier steht es dauerhaft im Fluss.
+    // als Geschwister unter die Navigation — als Flex-Kind würde es die
+    // Navigationszeile auseinanderziehen.
     var panel = null, tiles = 0;
     nav.querySelectorAll('.nav__item--has-menu').forEach(function (item) {
       var found = item.querySelector('.mega');
@@ -651,32 +531,8 @@ onScroll();
   });
 })();
 
-// Mega-Menü im Header: Hover/Fokus per CSS · Klick-Toggle für Touch-Geräte
-document.querySelectorAll('#site-header .nav__item--has-menu').forEach(function (item) {
-  var link = item.querySelector('.nav__link');
-  var panel = item.querySelector('.mega');
-
-  link.addEventListener('click', function (event) {
-    // Desktop (≥ 48rem): Hover/Fokus öffnet das Panel — Klick folgt dem Link.
-    // Mobil (< 48rem): Klick klappt das Panel auf, gleiche Grenze wie im CSS.
-    if (window.matchMedia('(min-width: 48rem)').matches) return;
-    event.preventDefault();
-    var open = panel.classList.toggle('is-open');
-    link.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-
-  item.addEventListener('mouseenter', function () { link.setAttribute('aria-expanded', 'true'); });
-  item.addEventListener('mouseleave', function () { link.setAttribute('aria-expanded', 'false'); });
-});
-
-// Escape schließt ein geöffnetes Panel
-document.addEventListener('keydown', function (event) {
-  if (event.key !== 'Escape') return;
-  document.querySelectorAll('#site-header .mega.is-open').forEach(function (panel) {
-    panel.classList.remove('is-open');
-    panel.parentElement.querySelector('.nav__link').setAttribute('aria-expanded', 'false');
-  });
-});
+// Die Flyouts stehen auf dieser Seite dauerhaft offen. Aufklapp-Logik,
+// Escape-Handling und der Sticky-Header entfallen deshalb.
 </script>
 </body>
 </html>
